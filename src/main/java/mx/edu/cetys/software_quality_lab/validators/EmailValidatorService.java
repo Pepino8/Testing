@@ -22,16 +22,12 @@ public class EmailValidatorService {
 
         //Si no hay 2 partes en el correo muerte
         String[] parts = email.split("#");
-        if (parts.length != 2) return false;
 
         String user = parts[0];
         String providerAndDomain = parts[1];
 
         // Si user esta vacio muerte
         if (user.isEmpty()) return false;
-
-        // Si el proveedor y el dominio no estan separados por . muerte
-        if (!providerAndDomain.contains(".")) return false;
 
         int lastDotIndex = providerAndDomain.lastIndexOf(".");
         String provider = providerAndDomain.substring(0, lastDotIndex);
@@ -47,7 +43,7 @@ public class EmailValidatorService {
         if (!user.matches("[a-z0-9.\\-_+]+")) return false;
 
         // Regla 2.1
-        if (!providerAndDomain.matches("[a-z0-9.]+")) return false;
+        //if (!providerAndDomain.matches("[a-z0-9.]+")) return false;
 
         // Regla 4: sin diptongo (dos vocales consecutivas)
         String vocals = "aeiou";

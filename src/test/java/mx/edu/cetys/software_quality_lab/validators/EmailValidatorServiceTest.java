@@ -3,6 +3,7 @@ package mx.edu.cetys.software_quality_lab.validators;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EmailValidatorServiceTest {
 
@@ -20,6 +21,24 @@ public class EmailValidatorServiceTest {
     }
 
     @Test
+    void shouldReturnTrueWhenEmailIsValid() {
+        EmailValidatorService emailValidator = new EmailValidatorService();
+
+        var isValid = emailValidator.isValid("mepic4n#gmil.com");
+
+        assertTrue(isValid);
+    }
+
+    @Test
+    void shouldReturnFalseWhenProviderIsEmpty() {
+        EmailValidatorService emailValidator = new EmailValidatorService();
+
+        var isValid = emailValidator.isValid("mepic4n#.com");
+
+        assertFalse(isValid);
+    }
+
+    @Test
     void shouldReturnFalseWhenEmailIsEmpty() {
 
         //Arrange
@@ -32,12 +51,21 @@ public class EmailValidatorServiceTest {
         assertFalse(isValid);
     }
 
+    @Test
+    void shouldReturnFalseIfUserIsNotValid(){
+        EmailValidatorService emailValidator = new EmailValidatorService();
+
+        var  isValid = emailValidator.isValid("#a4sdf.com");
+
+        assertFalse(isValid);
+    }
+
     // Regla 1
     @Test
     void shouldReturnFalseIfInvalidCharacters() {
         EmailValidatorService emailValidator = new EmailValidatorService();
 
-        var isValid = emailValidator.isValid("!!!!!!!!#!!!!!!!!.!!!");
+        var isValid = emailValidator.isValid("!!4!!!!#!!!!!!!");
 
         assertFalse(isValid);
     }
@@ -47,7 +75,25 @@ public class EmailValidatorServiceTest {
     void shouldReturnFalseIfUserHasInvalidCharacters() {
         EmailValidatorService emailValidator = new EmailValidatorService();
 
-        var isValid = emailValidator.isValid("!!!!!!#gmail.com");
+        var isValid = emailValidator.isValid("!!4!!!!#gmail.com");
+
+        assertFalse(isValid);
+    }
+
+    @Test
+    void shouldReturnFalseIfEmailHasMoreThanOneSeparator() {
+        EmailValidatorService emailValidator = new EmailValidatorService();
+
+        var isValid = emailValidator.isValid("4coco#s#g#mail.com");
+
+        assertFalse(isValid);
+    }
+
+    @Test
+    void shouldReturnFalseIfDomainHasInvalidLength() {
+        EmailValidatorService emailValidator = new EmailValidatorService();
+
+        var  isValid = emailValidator.isValid("mepic4n#gmil.");
 
         assertFalse(isValid);
     }
@@ -58,7 +104,7 @@ public class EmailValidatorServiceTest {
     void shouldReturnFalseIfProviderAndDomainHasInvalidCharacters() {
         EmailValidatorService emailValidator = new EmailValidatorService();
 
-        var isValid = emailValidator.isValid("coco#!#!!!!!mail.com");
+        var isValid = emailValidator.isValid("coc4o#!#!!mail.com");
 
         assertFalse(isValid);
     }
@@ -68,7 +114,7 @@ public class EmailValidatorServiceTest {
     void shouldReturnFalseIfUserAndProviderSeparatorIsNotValid() {
         EmailValidatorService emailValidator = new EmailValidatorService();
 
-        var isValid = emailValidator.isValid("huevo@gmail.com");
+        var isValid = emailValidator.isValid("hu4evo@gmail.com");
 
         assertFalse(isValid);
     }
@@ -79,7 +125,7 @@ public class EmailValidatorServiceTest {
     void shouldReturnFalseIfDiptongo() {
         EmailValidatorService emailValidator = new EmailValidatorService();
 
-        var isValid = emailValidator.isValid("mepicanloscocosaaaaaa#gmail.com");
+        var isValid = emailValidator.isValid("4cocosaa#gmail.com");
 
         assertFalse(isValid);
     }
@@ -89,7 +135,7 @@ public class EmailValidatorServiceTest {
     void shouldReturnFalseIfDomainLengthIsInvalid() {
         EmailValidatorService emailValidator = new EmailValidatorService();
 
-        var isValid = emailValidator.isValid("mepican#gmail.cococococom");
+        var isValid = emailValidator.isValid("mep4ican#gmail.cococom");
 
         assertFalse(isValid);
     }
@@ -100,7 +146,7 @@ public class EmailValidatorServiceTest {
     void shouldReturnFalseIfLengthIsMoreThan47() {
         EmailValidatorService emailValidator = new EmailValidatorService();
 
-        var isValid = emailValidator.isValid("asdkjnasdkbjghnsdakbjghasdbkjhasdjhkag#gmail.com");
+        var isValid = emailValidator.isValid("asdkj4nasdkbjghnsdakbjghasdbkjhasdjhkag#gmail.com");
 
         assertFalse(isValid);
     }

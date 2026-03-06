@@ -1,5 +1,8 @@
 package mx.edu.cetys.software_quality_lab.validators;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -7,12 +10,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EmailValidatorServiceTest {
 
+    private EmailValidatorService emailValidator;
+    
+    @BeforeAll
+    static void beforeAll() {
+        // Log Start Time
+    }
+    
+    @BeforeEach
+    void beforeEach() {
+        emailValidator = new EmailValidatorService();
+    }
+
     @Test
     void shouldReturnFalseWhenEmailIsNull() {
-
-        //Arrange
-        EmailValidatorService emailValidator = new EmailValidatorService();
-
         //Act
         var isValid = emailValidator.isValid(null);
 
@@ -22,7 +33,6 @@ public class EmailValidatorServiceTest {
 
     @Test
     void shouldReturnTrueWhenEmailIsValid() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("mepic4n#gmil.com");
 
@@ -31,7 +41,6 @@ public class EmailValidatorServiceTest {
 
     @Test
     void shouldReturnFalseWhenProviderIsEmpty() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("mepic4n#.com");
 
@@ -42,7 +51,6 @@ public class EmailValidatorServiceTest {
     void shouldReturnFalseWhenEmailIsEmpty() {
 
         //Arrange
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         //Act Email is Empty
         var isValid = emailValidator.isValid("");
@@ -53,7 +61,6 @@ public class EmailValidatorServiceTest {
 
     @Test
     void shouldReturnFalseIfUserIsNotValid(){
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var  isValid = emailValidator.isValid("#a4sdf.com");
 
@@ -63,7 +70,6 @@ public class EmailValidatorServiceTest {
     // Regla 1
     @Test
     void shouldReturnFalseIfInvalidCharacters() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("!!4!!!!#!!!!!!!");
 
@@ -73,7 +79,6 @@ public class EmailValidatorServiceTest {
     //Regla 2
     @Test
     void shouldReturnFalseIfUserHasInvalidCharacters() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("!!4!!!!#gmail.com");
 
@@ -82,7 +87,6 @@ public class EmailValidatorServiceTest {
 
     @Test
     void shouldReturnFalseIfEmailHasMoreThanOneSeparator() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("4coco#s#g#mail.com");
 
@@ -91,7 +95,6 @@ public class EmailValidatorServiceTest {
 
     @Test
     void shouldReturnFalseIfDomainHasInvalidLength() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var  isValid = emailValidator.isValid("mepic4n#gmil.");
 
@@ -102,7 +105,6 @@ public class EmailValidatorServiceTest {
     //Regla 2.1
     @Test
     void shouldReturnFalseIfProviderAndDomainHasInvalidCharacters() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("coc4o#!#!!mail.com");
 
@@ -112,7 +114,6 @@ public class EmailValidatorServiceTest {
     //Regla 3
     @Test
     void shouldReturnFalseIfUserAndProviderSeparatorIsNotValid() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("hu4evo@gmail.com");
 
@@ -123,7 +124,6 @@ public class EmailValidatorServiceTest {
     //Regla 4
     @Test
     void shouldReturnFalseIfDiptongo() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("4cocosaa#gmail.com");
 
@@ -133,7 +133,6 @@ public class EmailValidatorServiceTest {
     //Regla 5
     @Test
     void shouldReturnFalseIfDomainLengthIsInvalid() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("mep4ican#gmail.cococom");
 
@@ -144,7 +143,6 @@ public class EmailValidatorServiceTest {
     //Regla 6
     @Test
     void shouldReturnFalseIfLengthIsMoreThan47() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("asdkj4nasdkbjghnsdakbjghasdbkjhasdjhkag#gmail.com");
 
@@ -155,7 +153,6 @@ public class EmailValidatorServiceTest {
     //Regla 7
     @Test
     void shouldReturnFalseIfNo4IsFound() {
-        EmailValidatorService emailValidator = new EmailValidatorService();
 
         var isValid = emailValidator.isValid("mepicanloscocos#gmail.com");
 

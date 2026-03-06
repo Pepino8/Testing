@@ -43,7 +43,7 @@ public class EmailValidatorService {
         if (!user.matches("[a-z0-9.\\-_+]+")) return false;
 
         // Regla 2.1
-        //if (!providerAndDomain.matches("[a-z0-9.]+")) return false;
+        if (!providerAndDomain.matches("[a-z0-9.]+")) return false;
 
         // Regla 4: sin diptongo (dos vocales consecutivas)
         String vocals = "aeiou";

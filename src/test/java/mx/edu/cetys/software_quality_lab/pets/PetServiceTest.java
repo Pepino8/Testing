@@ -1,16 +1,14 @@
-package mx.edu.cetys.software_quality_lab;
+package mx.edu.cetys.software_quality_lab.pets;
 
-import mx.edu.cetys.software_quality_lab.pets.PetController;
-import mx.edu.cetys.software_quality_lab.pets.PetRepository;
-import mx.edu.cetys.software_quality_lab.pets.PetService;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import static jdk.jfr.internal.jfc.model.Constraint.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.ExpectedCount.times;
 
 public class PetServiceTest {
 
@@ -18,8 +16,13 @@ public class PetServiceTest {
 
     //Controller: No hay logica, excepto validacion de valores de entrada
 
-    @Mock
+    @InjectMocks
     PetService petService;
+
+    @Mock
+    PetRepository petRepository;
+
+
 
     @Test
     void savePet()
@@ -55,9 +58,14 @@ public class PetServiceTest {
 
     }
 
+    // TODO save pet _ invalid data:
+
+    // TODO get by ID, - get of id 1, but its not in DB
+    // 404 Not Found
     @Test
     void getAllPets()
     {
+
         // Recibir la peticion desde el controller GetAll
         // Query a la BD
         // Mapear los valores del DTO -> Pet Respuesta

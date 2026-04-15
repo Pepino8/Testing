@@ -1,5 +1,6 @@
 package mx.edu.cetys.software_quality_lab.pets;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,11 +21,12 @@ public class PetController {
     }
 
     //DTOs (Data Transfer Object) for Request and Responses
-    record PetRequest(String name, String color, String race, Integer age){}
-    record PetResponse(Long id, String name, String color, String race, Integer age){}
+    record PetRequest(String name, String color, String race, Integer age) {}
+    record PetResponse(Long id, String name, String color, String race, Integer age) {}
 
     // Response Generic Wrapper to include standarized info in all our APIs
-    record ApiResponse<T>(String info, T response, String error){}
+    public record ApiResponse<T>(String info, T response, String error) {}
+    public record PetWrapper(PetResponse pet) {}
 
     @GetMapping("/help")
     ApiResponse<PetResponse> help() {
@@ -32,10 +34,16 @@ public class PetController {
     }
 
     @PostMapping
-    ApiResponse<PetResponse> createPet(@RequestBody PetController.PetRequest requestPet){
-        return new ApiResponse<>("New pet was added", petService.savePet(requestPet), null);
+    @ResponseStatus(HttpStatus.CREATED)
+    ApiResponse<PetWrapper> createPet(@RequestBody PetController.PetRequest requestPet) {
+        return new ApiResponse<>("New pet was added",
+                new PetWrapper(petService.savePet(requestPet)),
+                null);
     }
 
+//    ApiResponse<PetResponse> getAllPets(@RequestBody PetController.PetRequest requestPet) {
+//        return new ApiResponse<>("Getting all pets", petService.getAllPets(requestPet), null);
+//    }
 
 
 }

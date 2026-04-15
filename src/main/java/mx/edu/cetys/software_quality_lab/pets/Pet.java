@@ -18,7 +18,6 @@ public class Pet {
     private Integer age;
 
     public Pet() {}
-
     public Pet(String name, String race, String color, Integer age) {
         this.name = name;
         this.race = race;

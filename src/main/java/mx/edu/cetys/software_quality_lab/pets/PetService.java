@@ -2,7 +2,6 @@ package mx.edu.cetys.software_quality_lab.pets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,8 +18,10 @@ public class PetService {
     PetController.PetResponse savePet(PetController.PetRequest requestPet) {
         log.info("Starting Pet Request Validations, requestPet={}", requestPet);
         // TODO Validation
-        // Name length > 2 char
-        // Name > 0
+        // Name length >= 2 char
+        // TODO regresar un 400 - Invalid data si no se cumple la validacion
+        // Age >= 0
+        // TODO regresar un 400
         // Color is not empty (extra validation from teacher)
 
         var savedPet = petRepository.save(

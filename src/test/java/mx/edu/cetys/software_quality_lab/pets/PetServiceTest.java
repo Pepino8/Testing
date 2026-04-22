@@ -1,28 +1,31 @@
 package mx.edu.cetys.software_quality_lab.pets;
 
+import mx.edu.cetys.software_quality_lab.pets.exceptions.InvalidPetDataException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class PetServiceTest {
 
     //Service Class: Es la clase donde se ejecuta el negocio / bussiness rules
 
     //Controller: No hay logica, excepto validacion de valores de entrada
 
-    @InjectMocks
-    PetService petService;
-
     @Mock
     PetRepository petRepository;
 
-
+    @InjectMocks
+    PetService petService;
 
     @Test
     void savePet()
@@ -55,6 +58,17 @@ public class PetServiceTest {
         // - Edad no sea negativa:
         // - Nombre mas de 2 letras
         // - Salvar a la BD, y la base datos nos regresa el mismo pet pero con ID
+
+    }
+
+    @Test
+    void savePet_InvalidName_ExceptionExpected() {
+
+        // Arrange
+        var petRequest = new PetController.PetRequest("L","Negro","Perro",5);
+        // Assert
+
+        assertThrows(InvalidPetDataException.class, ()-> petService.savePet(petRequest));
 
     }
 

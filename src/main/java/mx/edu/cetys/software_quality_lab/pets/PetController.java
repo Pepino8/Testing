@@ -1,7 +1,9 @@
 package mx.edu.cetys.software_quality_lab.pets;
 
+import mx.edu.cetys.software_quality_lab.pets.exceptions.InvalidPetDataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/pets") //localhost:8080/pets
@@ -40,6 +42,17 @@ public class PetController {
                 new PetWrapper(petService.savePet(requestPet)),
                 null);
     }
+
+    //GET localhost:8080/pets = TODOS los pets, TODO PAGINATION via queryParameters
+
+    @GetMapping("/{petId}")
+    @ResponseStatus(HttpStatus.OK)
+    ApiResponse<PetWrapper> findPetById(@PathVariable("petId") Long petId) {
+        var pet = petService.getPetById(petId);
+        return new ApiResponse<>("Pet found",
+                new PetWrapper(pet), null);
+    }
+
 
 //    ApiResponse<PetResponse> getAllPets(@RequestBody PetController.PetRequest requestPet) {
 //        return new ApiResponse<>("Getting all pets", petService.getAllPets(requestPet), null);

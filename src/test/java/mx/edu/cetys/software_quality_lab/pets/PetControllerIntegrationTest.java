@@ -57,8 +57,10 @@ public class PetControllerIntegrationTest {
                         .value("New pet was created"))
                 .andExpect(jsonPath("$.response.pet.name")
                                 .value("Jose"))
-
-
+                .andExpect(jsonPath("$.response.pet.color")
+                        .value("Negro"))
+                .andExpect(jsonPath("$.response.pet.race")
+                        .value("Dalmata"))
 
         //Agregar Mas Asserts
         ;

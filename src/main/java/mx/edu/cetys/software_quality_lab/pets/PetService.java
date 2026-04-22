@@ -1,5 +1,7 @@
 package mx.edu.cetys.software_quality_lab.pets;
 
+import mx.edu.cetys.software_quality_lab.pets.exceptions.InvalidPetDataException;
+import mx.edu.cetys.software_quality_lab.pets.exceptions.PetNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,11 @@ public class PetService {
         log.info("Starting Pet Request Validations, requestPet={}", requestPet);
         // TODO Validation
         // Name length >= 2 char
+        if(requestPet.name().isEmpty()
+                || requestPet.name().isBlank()
+                || requestPet.name().length() < 2) {
+            throw new InvalidPetDataException("Pet name is invalid");
+        }
         // TODO regresar un 400 - Invalid data si no se cumple la validacion
         // Age >= 0
         // TODO regresar un 400
@@ -31,12 +38,33 @@ public class PetService {
                         requestPet.age())
         );
 
+        return getPetResponseMapper(savedPet);
+
+    }
+
+    public PetController.PetResponse getPetById(Long petId) {
+        log.info("Starting Pet Response Validations, petId={}", petId);
+        //Validar si petId es corecto (numerico, mayor a o) else fail with 400
+        var petFromDb = petRepository.findById(petId); // Return an optional
+
+        // what if the petFromDB is null? or empty or not found?
+        // Do we throw an exception or handle it by the ControllerAdvice
+        // YES WE THROW EXCEPTION, AND Handle it in the advicer
+        if(!petFromDb.isEmpty()) {
+            throw new PetNotFoundException("Pet with id " + petId + " not found");
+            //throw 404 // TODO Create 404 Exception
+        }
+        var realPet = petFromDb.get();
+        return getPetResponseMapper(realPet);
+    }
+
+    private PetController.PetResponse getPetResponseMapper (Pet realPet){
         return new PetController.PetResponse(
-                savedPet.getId(),
-                savedPet.getRace(),
-                savedPet.getColor(),
-                savedPet.getName(),
-                savedPet.getAge()
+                realPet.getId(),
+                realPet.getRace(),
+                realPet.getColor(),
+                realPet.getName(),
+                realPet.getAge()
         );
     }
 }

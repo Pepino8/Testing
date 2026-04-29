@@ -4,6 +4,7 @@ import mx.edu.cetys.software_quality_lab.pets.exceptions.InvalidPetDataException
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/pets") //localhost:8080/pets
@@ -35,6 +36,12 @@ public class PetController {
         return new ApiResponse<>("This is the help API", null, null);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    ApiResponse<List<PetResponse>> getAllPets() {
+        return new ApiResponse<>("Getting all pets", petService.getAllPets(), null);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     ApiResponse<PetWrapper> createPet(@RequestBody PetController.PetRequest requestPet) {
@@ -47,10 +54,9 @@ public class PetController {
 
     @GetMapping("/{petId}")
     @ResponseStatus(HttpStatus.OK)
-    ApiResponse<PetWrapper> findPetById(@PathVariable("petId") Long petId) {
-        var pet = petService.getPetById(petId);
+    ApiResponse<PetWrapper> findPetById(@PathVariable Long petId) {
         return new ApiResponse<>("Pet found",
-                new PetWrapper(pet), null);
+                new PetWrapper(petService.getPetById(petId)), null);
     }
 
 

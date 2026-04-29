@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PetService {
     private final Logger log = LoggerFactory.getLogger(PetService.class);
@@ -50,7 +52,7 @@ public class PetService {
         // what if the petFromDB is null? or empty or not found?
         // Do we throw an exception or handle it by the ControllerAdvice
         // YES WE THROW EXCEPTION, AND Handle it in the advicer
-        if(!petFromDb.isEmpty()) {
+        if(petFromDb.isEmpty()) {
             throw new PetNotFoundException("Pet with id " + petId + " not found");
             //throw 404 // TODO Create 404 Exception
         }
@@ -58,12 +60,19 @@ public class PetService {
         return getPetResponseMapper(realPet);
     }
 
+    public List<PetController.PetResponse> getAllPets() {
+        log.info("Getting all pets");
+        return petRepository.findAll().stream()
+                .map(this::getPetResponseMapper)
+                .toList();
+    }
+
     private PetController.PetResponse getPetResponseMapper (Pet realPet){
         return new PetController.PetResponse(
                 realPet.getId(),
-                realPet.getRace(),
-                realPet.getColor(),
                 realPet.getName(),
+                realPet.getColor(),
+                realPet.getRace(),
                 realPet.getAge()
         );
     }
